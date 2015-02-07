@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+
+<html lang="en"> <!--<![endif]-->
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="/static/stylesheets/base.css">
+<link rel="stylesheet" href="/static/stylesheets/skeleton.css">
+<link rel="stylesheet" href="/static/stylesheets/layout.css">
+<link rel="stylesheet" href="/static/stylesheets/custom.css">
+
+<script src="http://d3js.org/d3.v2.js"></script>
+<script src="/static/javascript/utilfunctions.js"></script>
+<script src="/static/javascript/search.js"></script>
+
+{% block head %}
+
+{% endblock %}
+
+<!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
+<title>{% block title %} Page {% endblock %}</title>
+
+</head>
+<body onclick="hideResults(event, 'searchResults');">
+
+<div class="container">
+    <div id="header" class="sixteen columns">
+        <h1 style="margin-top: 40px; text-align: center;">StockStalker</h1>
+        {% if user.is_authenticated %}
+        <nav id="primary" class="sixteen columns alpha" role="Primary Navigation">
+            <ul>
+                <li><a href="/stockstalker">watchlist</a></li>
+                <li><a href="/stockstalker/account">account</a></li>
+                <li><a href="/logout">log out</a></li>
+            {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+    {% block content %}
+    This is the default content.
+    {% endblock %}
+    
+    <hr class="clear" />
+
+    <div id="footer"> 
+        {% block footer %}
+        {% endblock %}
+    </div>
+</div>
+
+</body
+</html>

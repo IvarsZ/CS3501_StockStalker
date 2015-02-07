@@ -1,0 +1,43 @@
+{% extends "basic.html" %}
+
+{% block head %}
+
+<style type="text/css">
+input[type="text"], input[type="password"] { display: inline-block; !important }
+input { width: 210px; }
+</style>
+
+{% endblock %}
+
+
+{% block title %}
+Account settings
+{% endblock %}
+
+
+{% block content %}
+
+<div class="eight columns">
+<h3>User details</h3>
+</div>
+
+<div class="eight columns">
+<h3>Password</h3>
+</div>
+
+<div class="eight columns">
+
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+</div>
+
+<div class="eight columns">
+    <a href="{% url password_change %}">Update password</a>
+</div>
+
+{% endblock %}
+
+
+

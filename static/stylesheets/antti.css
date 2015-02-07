@@ -1,0 +1,40 @@
+#graphcontainer, #graphnav {
+  background:#ffffff;
+  font: 10px sans-serif;
+}
+
+#graphnav {
+    padding-top: 1em;
+}
+
+
+.c1 { color: #594F4F; } /* Burl (grey brown) */
+.c2 { color: #547980; } /* Washed Denim (light navy blue) */
+.c3 { color: #45ADA8; } /* Araucana Teal (blue-teal) */
+.c4 { color: #9DE0AD; } /* Sea Glass (green sea) */
+.c5 { color: #E5FCC2; } /* Aurora Borealis (light green) */
+
+/*h1 {
+    font: 50px sans-serif;
+    font-family: 'Lato' sans-serif;
+}*/
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #547980;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+}
+.area {
+  stroke: none;
+}
+
+.dot {
+  fill: none;
+  stroke-width: 1.5px;
+}
+
+

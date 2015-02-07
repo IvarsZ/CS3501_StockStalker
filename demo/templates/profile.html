@@ -1,0 +1,104 @@
+{% extends "basic.html" %}
+
+<!-- look for tabular form. For search bar, create an input element and set its type attribute 
+to text or textbox. -->
+
+{% block head %}
+<script type="text/javascript">
+window.onload = function(){
+    updateStockList('watchlist','{% for trackedstock in investor.tracked.all %}{{trackedstock.ticker}},{% endfor %}');
+    updateStockList('recommendations','{% for recommendation in recommended.all %}{{recommendation.ticker}},{% endfor %}');
+    loadSearchData();
+}
+</script>
+{% endblock %}
+
+{% block title %}Stock Watchlist{% endblock %}
+
+{% block content %}
+    
+    <div class="eleven columns alpha">
+        &nbsp;
+        <!--<h2> Investor profile </h2> Some content-->
+    </div>
+    <aside class="five columns" style="text-align: right;">
+    <input type="text" name="ticker" id="searchbox" autocomplete="off" 
+        style="display:inline; position: relative;" 
+        onKeyUp="updateResults(this.value);"
+        onFocus="updateResults(this.value);"
+        value="">
+
+    <table id="searchResults" class="" border=""> 
+    </table>
+</aside>
+
+    <hr class="clear">
+
+<div class="column">
+    <h3> My Stock Watchlist </h3>
+    <!-- define table where the stocks in a user's profile will be kept... In the future we will need 
+    a template here, but for now I have just used some random placeholder data... --> 
+
+    <div> <!-- need a container for the table for when clearing table after removing last stock -->
+    {% if investor.tracked.all.count < 1 %}
+    No tracked stocks. Get started with the search tool (above) or take a look at some of our recommendations (below).
+    {% else %}
+
+    <table id="watchlist" class="stocklist" border="1" id="watchlist" onclick="updateStockList('watchlist','{% for trackedstock in investor.tracked.all %} {{trackedstock.ticker}},{% endfor %}')"> 
+    <tr> 
+    	<th>Symbol</th>
+        <th>Index</th>
+        <th colspan="2">Current Price</th>
+    	<th>Change Today</th> 
+    	<th>Volume</th> 
+    	<th></th>
+    </tr>
+    {% for s in investor.tracked.all %}
+    <tr id="{{s.ticker}}_row">
+	    <td><a href="/stockstalker/stock/{{s.ticker}}">{{ s.name }} ({{ s.ticker }})</a></td>
+        <td>{{s.index.name}}  </td>
+        <td>{{s.index.currency}}</td>
+    	<td id="watchlist_{{s.ticker}}_current">-</td>
+    	<td id="watchlist_{{s.ticker}}_change">&nbsp;</td>
+    	<td id="watchlist_{{s.ticker}}_volume">-</td>
+        <td><input type="button" value="Remove" onClick="removeStock('{{s.ticker}}');" /></td>
+    </tr>
+    {% endfor %}
+    </table>
+    {% endif %}
+    </div>
+    
+    <hr class="clear" />
+
+    <h3> Stock Recommendations </h3>
+    <div> <!-- need a container for the table for when clearing table after removing last stock -->
+    {% if recommended.all.count < 1 %}
+    No recommendations available.
+    {% else %}
+    <table id="recommendations" class="stocklist" border="1" id="watchlist" onclick="updateStockList('recommendations','{% for r in recommended.all %}{{r.ticker}},{% endfor %}')"> 
+    <tr> 
+    	<th>Symbol</th>
+        <th>Index</th>
+        <th colspan="2">Current Price</th>
+    	<th>Change Today</th> 
+    	<th>Volume</th> 
+    	<th>Score</th>
+    </tr>
+    {% for s in recommended.all %}
+    <tr id="{{s.ticker}}_row">
+	    <td><a href="/stockstalker/stock/{{s.ticker}}">{{ s.name }} ({{ s.ticker }})</a></td>
+        <td>{{s.index.name}}  </td>
+        <td>{{s.index.currency}}</td>
+    	<td id="recommendations_{{s.ticker}}_current">796.00</td>
+    	<td id="recommendations_{{s.ticker}}_change">1.00 (+0.13%)</td>
+    	<td id="recommendations_{{s.ticker}}_volume">1,224,879</td>
+        <td style="width: 125px;">
+            <div style="height: 32px; width: 75px; padding-top: 8px; margin: 10px;">{{s.score}}<div>
+        </td>
+    </tr>
+    {% endfor %}
+    </table>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

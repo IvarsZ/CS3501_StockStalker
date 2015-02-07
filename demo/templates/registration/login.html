@@ -1,0 +1,43 @@
+{% extends "basic.html" %}
+{% load url from future %}
+
+{% block head %}
+
+<style type="text/css">
+input[type="text"], input[type="password"] { display: inline-block; !important }
+input { width: 210px; }
+</style>
+
+{% endblock %}
+
+
+{% block title %}
+Log in
+{% endblock %}
+
+
+{% block content %}
+
+<div class="sixteen columns" style="text-align: center;">
+
+    <br />
+    
+    <p style="color: #C70202;">&nbsp;
+    {% if form.errors %} 
+       Invalid username or password. Please try again.
+    {% endif %}
+    </p>
+
+    <form method="POST" action="{% url 'django.contrib.auth.views.login' %}">
+    {% csrf_token %}
+
+        {{ form.username.label_tag }}{{ form.username }}
+        {{ form.password.label_tag }}{{ form.password }}
+        <br /><br />
+        <input type="submit" value="Login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    <form>
+</div>
+
+{% endblock %}
+

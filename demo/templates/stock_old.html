@@ -1,0 +1,7 @@
+{{ investor }} | 
+{{ object.ticker }} | 
+{{ user.username }} |
+
+{% for s in investor.tracked.all %}
+{{ s.name }}
+{% endfor %}

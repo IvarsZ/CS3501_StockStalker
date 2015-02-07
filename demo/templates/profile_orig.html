@@ -1,0 +1,82 @@
+<!-- look for tabular form. For search bar, create an input element and set its type attribute 
+to text or textbox. -->
+<html>
+
+<title> My Stock Watchlist </title> 
+
+<body>
+<h1>My Profile</h1>
+<!-- here is where the user should be able to search for the stock they want. -->  
+<h2> Search Stock </h2> 
+<form>
+Enter ticker symbol: <input type="text" name="ticker">
+<input type="button" value = "Add stock">
+</form>
+<table id="ticker_search_results" border=""> 
+<tr>
+	<td>Ticker search result 1</td>
+<tr>
+	<td>Ticker search result 2</td>
+</tr>
+<tr>
+	<td>Ticker search result 3</td>
+</tr>
+</table>
+<p> html does not support search drop down results (i.e. user keys in a company name and a drop 
+down menu of companies matching their search comes up like on google). After consulting some google 
+source code, it appears that they use a table for the items in their drop down menu and use javascript
+to format these in a dropdown menu </p>
+
+<h2> My Stock Watchlist </h2>
+<!-- define table where the stocks in a user's profile will be kept... In the future we will need 
+a template here, but for now I have just used some random placeholder data... --> 
+<table id="profile_stocks" border="1"> 
+<tr> 
+	<th>Company Name & Ticker</th> 
+	<th>Current Price</th>
+	<th>Change Today</th> 
+	<th>Volume</th> 
+	<th>Remove Stock from Profile</th>
+</tr>
+{% for s in investor.tracked.all %}
+<tr id="{{s.ticker}}_row">
+	<td><a href="/demo/stockstalker/stock/{{s.ticker}}">{{ s.name }} ({{ s.ticker }})</a></td>
+	<td id="{{s.ticker}}_current"></td>
+	<td id="{{s.ticker}}_change"></td>
+	<td id="{{s.ticker}}_volume"></td>
+	<td><input type="button" value="Remove" onClick="removeStock({{s.ticker}});" /></td>
+</tr>
+{% endfor %}
+<!--<tr> 
+	<td><a href="">Barrick Gold Corp (ABX)</a></td>
+	<td>$34.11 CAD (currency)</td> 
+	<td>-$0.05 (-0.3%)</td>
+	<td>2.1M</td>
+	<td><input type="button" value="Remove"></td>
+</tr>
+-->
+</table>
+<p> Note, the stock names will be links to other parts of the site. It should take the user to a page
+where they can get more info on the stock (i.e. from there they can get the charts, see the PE ratio, 
+etc. This is shown more in the next html stuff. </p>
+<p> In the future, we will need a template here. This is just some placeholder data. As the user adds 
+or removes stocks, the table will grow/shrink accordingly.</p> 
+
+<!--<h2> Stock Recommendations </h2> 
+<table id="stock_recommendations" border="1"> 
+<tr>	
+	<th>Company Name & Ticker</th> 
+	<th>Recommendation Type</th>
+</tr>
+{% for s in recommendedStocksTableOrWhatever %}
+<tr id="{{s.ticker}}_rec"> 
+	<td><a href="/stock/{{s.ticker}}">{{s.name}} ({{s.ticker}})</a></td> 
+	<td>{{s.recType}}</td>
+</tr>
+{% endfor %}
+</table>
+<p> We should have a link to another page on our site explaining the stock picking methodologies of the 
+system </p>-->
+</body>
+
+</html>

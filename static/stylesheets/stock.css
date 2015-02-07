@@ -1,0 +1,37 @@
+table.stockdata {
+   width: 90%; 
+}
+
+table.stockdata tr td {
+    line-height: 2em;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+table.stockdata tr td {
+    font-size: 80%;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+table.stockdata tr:nth-child(odd) {
+    background-color: #EBEBEB;
+}
+
+table.stockdata tr td:nth-child(odd) {
+    text-align: left;
+}
+
+table.stockdata tr td:nth-child(even) {
+    text-align: right;
+}
+
+table.stockdata tr:last-child {
+    border-bottom: 1px solid #EBEBEB;
+}
+
+table#graphnav {
+    width:100%;
+    text-align: center;
+}
+

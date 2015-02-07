@@ -1,0 +1,168 @@
+{% extends "basic.html" %}
+
+{% block head %}
+
+<link rel="stylesheet" href="/static/stylesheets/stock.css">
+<link rel="stylesheet" href="/static/stylesheets/antti.css">
+
+<script src="/static/javascript/graph.js"></script>
+
+<script type="text/javascript">
+window.onload = function() {
+    startUpdateLoop('{{stock.ticker}}','{{ stock.index.currency }}');
+    drawgraph('{{ stock.ticker }}',undefined,undefined,'d','{{stock.index.currency}}');
+    loadSearchData(); 
+}
+</script>
+{% endblock %}
+
+{% block title %}{{stock.name}} {% endblock %}
+
+	
+{%block content %}
+
+<div class="eleven columns">
+    <h3 style="display:inline-block;">{{stock.name}}<span class="faint"> ({{stock.ticker}}) on {{stock.index.name}}</span></h4> 
+</div>
+
+
+<aside class="five columns" style="text-align: right;">
+    <input type="text" name="ticker" id="searchbox" autocomplete="off" 
+        style="display:inline; position: relative;" 
+        onKeyUp="updateResults(this.value);"
+        onFocus="updateResults(this.value);"
+        value="">
+
+    <table id="searchResults" class="" border=""> 
+    </table>
+</aside>
+
+<hr class="clear">
+
+<div class="one-third column">
+    <table border="" class="stockdata">
+    <tr>
+        <td>Current Price</td>
+        <td id="{{stock.ticker}}_lasttradepriceonly">-</td>
+    </tr>
+    <tr>
+        <td>Change</td>
+        <td id="{{stock.ticker}}_change">-</td>
+    </tr>
+    <tr>
+        <td>Volume</td>
+        <td id="{{stock.ticker}}_volume">-</td>
+    </tr>
+    <tr>
+        <td>Opening Price</td>
+        <td id="{{stock.ticker}}_open">-</td>
+    </tr>
+    <tr>
+        <td>Previous Closing Price</td>
+        <td id="{{stock.ticker}}_previousclose">-</td>
+    </tr>
+    <tr>
+        <td>Market Capitalization </td>
+        <td id="{{stock.ticker}}_marketcapitalization">-</td>
+    </tr>
+    <tr>
+        <td>Price-Earnings Ratio </td>
+        <td id="{{stock.ticker}}_peratio">-</td>
+    </tr>
+    <tr>
+        <td>Price-Book Ratio </td>
+        <td id="{{stock.ticker}}_pricebook">-</td>
+    </tr>
+    <tr>
+        <td>Price-Earnings to Growth Ratio </td>
+        <td id="{{stock.ticker}}_pegratio">-</td>
+    </tr>
+    <tr>
+        <td>Dividend Yield </td>
+        <td id="{{stock.ticker}}_divy">-</td>
+    </tr>
+    <tr>
+        <td>Annual Dividend </td>
+        <td id="{{stock.ticker}}_adivy">-</td>
+    </tr>
+    <tr>
+        <td>50 Day Moving Average </td>
+        <td id="{{stock.ticker}}_50avg">-</td>
+    </tr>
+    <tr>
+        <td>200 Day Moving Average </td>
+        <td id="{{stock.ticker}}_200avg">-</td>
+    </tr>
+    <tr>
+        <td>Our rating</td>
+        <td>{{ stock.score }}</td>
+    </tr>
+    </table>
+</div>
+
+<div class="two-thirds column">
+
+    <div id="graphcontainer">
+    </div>
+
+<table id="graphnav">
+<tr> 
+    <td><a href="#" onclick="changeChart('{{ stock.ticker }}', 'w', '{{ stock.index.currency }}', 10);">10 years</a></td>
+    <td><a href="#" onclick="changeChart('{{ stock.ticker }}', 'w', '{{ stock.index.currency }}', 5);">5 years</a></td>
+    <td><a href="#" onclick="changeChart('{{ stock.ticker }}', 'd', '{{ stock.index.currency }}', 1);">1 year</a></td>
+    <td><a href="#" onclick="changeChart('{{ stock.ticker }}', 'd', '{{ stock.index.currency }}', 0, 6);">6 months</a></td>
+    <td><a href="#" onclick="changeChart('{{ stock.ticker }}', 'd', '{{ stock.index.currency }}', 0, 3);">3 months</a></td>
+    <td><a href="#" onclick="changeChart('{{ stock.ticker }}', 'd', '{{ stock.index.currency }}', 0, 1);">1 month</a></td>
+    <td><a href="#" onclick="changeChart('{{ stock.ticker }}', 'd', '{{ stock.index.currency }}', 0, 0, 1);">1 week</a></td>
+	<td><a id="rawlink" href="/stockdata/historical/raw/{{ stock.ticker }}/2011-11-26/2012-11-26/d">Historical Pricing Info</a></td>
+</tr>
+</table>
+
+</div>
+
+<script type="text/css">
+
+</script>
+
+<hr class="clear">
+<div class="column">
+
+<script type="text/javascript">
+{% if stock in investor.tracked.all %}
+window.inlist = true
+{% else %}
+window.inlist = false
+{% endif %}
+
+function toggleButton(){
+    window.inlist = ! window.inlist;
+    button = document.getElementById('addremovebutton');
+    button.value = (window.inlist ? "Remove from watchlist" : "Add to watchlist");
+}
+
+function clickButton(){
+    if(window.inlist){
+        removeStock('{{stock.ticker}}');
+    } else {
+        addStock('{{stock.ticker}}');
+    }
+}
+</script>
+
+{% if stock in investor.tracked.all %}
+<input type="button" onclick="clickButton()" id="addremovebutton" value="Remove from watchlist">
+{% else %}
+<input type="button" onclick="clickButton()" id="addremovebutton" value="Add to watchlist">
+{% endif %}
+
+<span style="padding-left: 20px; color: #C02702;" id="addremovefeedback"></span>
+
+</div>
+<!--<h2> System Recommendation </h2> 
+<p>The system recommends a buy based on its _______ strategy.</p>
+
+<a href="/demo/stockstalker">Return to My Watchlist</a>
+</div>
+-->
+{% endblock %}
+
